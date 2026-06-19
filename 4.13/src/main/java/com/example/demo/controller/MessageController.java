@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,55 +15,52 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.dto.Message;
+import com.example.demo.repository.MessageRepository;
 
 @RestController
 @RequestMapping("/message")
 public class MessageController {
 
-    private final List<Message> messages = new ArrayList<>();
-    private int nextId = 1;
+    private final MessageRepository messageRepository;
+
+    public MessageController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     @GetMapping
     public List<Message> getAll() {
-        return messages;
+        return messageRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Message getById(@PathVariable int id) {
-        return findById(id)
+        return messageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Message create(@RequestBody Message message) {
-        message.setId(nextId++);
-        messages.add(message);
-        return message;
+        return messageRepository.save(message);
     }
 
     @PutMapping("/{id}")
     public Message update(@PathVariable int id, @RequestBody Message message) {
-        Message existing = findById(id)
+        Message existing = messageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         existing.setTitle(message.getTitle());
         existing.setText(message.getText());
         existing.setTime(message.getTime());
-        return existing;
+        return messageRepository.save(existing);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        if (!messages.removeIf(message -> message.getId() == id)) {
+        if (!messageRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    }
-
-    private Optional<Message> findById(int id) {
-        return messages.stream()
-                .filter(message -> message.getId() == id)
-                .findFirst();
+        messageRepository.deleteById(id);
     }
 }
