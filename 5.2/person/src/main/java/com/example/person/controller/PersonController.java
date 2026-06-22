@@ -1,4 +1,4 @@
-package com.example.location.controller;
+package com.example.person.controller;
 
 import java.util.List;
 
@@ -13,47 +13,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.location.dto.Location;
-import com.example.location.service.LocationService;
+import com.example.person.dto.Person;
+import com.example.person.service.PersonService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/location")
+@RequestMapping("/person")
 @RequiredArgsConstructor
-public class LocationController {
+public class PersonController {
 
-    private final LocationService locationService;
+    private final PersonService personService;
 
     @GetMapping
-    public List<Location> getAll() {
-        return locationService.findAll();
+    public List<Person> getAll() {
+        return personService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Location getById(@PathVariable int id) {
-        return locationService.findById(id);
-    }
-
-    @GetMapping("/person/{personId}")
-    public Location getByPersonId(@PathVariable int personId) {
-        return locationService.findByPersonId(personId);
+    public Person getById(@PathVariable int id) {
+        return personService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Location create(@RequestBody Location location) {
-        return locationService.create(location);
+    public Person create(@RequestBody Person person) {
+        return personService.create(person);
     }
 
     @PutMapping("/{id}")
-    public Location update(@PathVariable int id, @RequestBody Location location) {
-        return locationService.update(id, location);
+    public Person update(@PathVariable int id, @RequestBody Person person) {
+        return personService.update(id, person);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        locationService.delete(id);
+        personService.delete(id);
     }
 }

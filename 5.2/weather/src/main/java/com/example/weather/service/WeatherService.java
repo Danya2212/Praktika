@@ -9,14 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.weather.dto.Weather;
 import com.example.weather.repository.WeatherRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class WeatherService {
 
     private final WeatherRepository weatherRepository;
-
-    public WeatherService(WeatherRepository weatherRepository) {
-        this.weatherRepository = weatherRepository;
-    }
 
     public List<Weather> findAll() {
         return weatherRepository.findAll();

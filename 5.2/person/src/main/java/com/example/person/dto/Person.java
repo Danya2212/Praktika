@@ -1,4 +1,6 @@
-package com.example.weather.dto;
+package com.example.person.dto;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Weather {
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double latitude;
-    private double longitude;
-    private double temperature;
-    private String description;
+    private String firstname;
+    private String surname;
+    private String lastname;
+    private LocalDate birthday;
 }

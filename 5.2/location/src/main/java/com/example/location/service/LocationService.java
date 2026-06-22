@@ -9,14 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.location.dto.Location;
 import com.example.location.repository.LocationRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LocationService {
 
     private final LocationRepository locationRepository;
-
-    public LocationService(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
 
     public List<Location> findAll() {
         return locationRepository.findAll();
