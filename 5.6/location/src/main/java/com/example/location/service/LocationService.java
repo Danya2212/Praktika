@@ -14,21 +14,17 @@ import com.example.location.model.Weather;
 import com.example.location.model.WeatherApiResponse;
 import com.example.location.repository.LocationRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LocationService {
 
     private final LocationRepository repository;
     private final RestTemplate restTemplate;
-    private final String weatherServiceUrl;
 
-    public LocationService(
-            LocationRepository repository,
-            RestTemplate restTemplate,
-            @Value("${weather.service.url}") String weatherServiceUrl) {
-        this.repository = repository;
-        this.restTemplate = restTemplate;
-        this.weatherServiceUrl = weatherServiceUrl;
-    }
+    @Value("${weather.service.url}")
+    private String weatherServiceUrl;
 
     public List<Location> findAll() {
         return repository.findAll();

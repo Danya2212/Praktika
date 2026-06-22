@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.weather.model.Root;
 import com.example.weather.service.WeatherService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/weather")
+@RequiredArgsConstructor
 public class WeatherController {
 
     private final WeatherService weatherService;
-
-    public WeatherController(WeatherService weatherService) {
-        this.weatherService = weatherService;
-    }
 
     @GetMapping
     public Root getWeather(@RequestParam double lat, @RequestParam double lon) {

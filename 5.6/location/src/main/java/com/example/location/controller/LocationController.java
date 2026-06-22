@@ -17,15 +17,14 @@ import com.example.location.model.Location;
 import com.example.location.model.Weather;
 import com.example.location.service.LocationService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/location")
+@RequiredArgsConstructor
 public class LocationController {
 
     private final LocationService locationService;
-
-    public LocationController(LocationService locationService) {
-        this.locationService = locationService;
-    }
 
     @GetMapping
     public List<Location> getAll() {

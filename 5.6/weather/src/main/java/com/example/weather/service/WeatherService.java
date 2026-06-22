@@ -8,21 +8,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.weather.model.Root;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class WeatherService {
 
     private final RestTemplate restTemplate;
-    private final String apiUrl;
-    private final String apiKey;
 
-    public WeatherService(
-            RestTemplate restTemplate,
-            @Value("${weather.api.url}") String apiUrl,
-            @Value("${weather.api.key}") String apiKey) {
-        this.restTemplate = restTemplate;
-        this.apiUrl = apiUrl;
-        this.apiKey = apiKey;
-    }
+    @Value("${weather.api.url}")
+    private String apiUrl;
+
+    @Value("${weather.api.key}")
+    private String apiKey;
 
     @Cacheable(value = "weather", key = "#lat + '_' + #lon")
     public Root getWeather(double lat, double lon) {
