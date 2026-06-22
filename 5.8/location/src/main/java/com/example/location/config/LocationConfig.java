@@ -10,11 +10,6 @@ public class LocationConfig {
 
     @Bean
     @LoadBalanced
-    public RestTemplate loadBalancedRestTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
