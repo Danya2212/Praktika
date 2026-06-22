@@ -1,5 +1,7 @@
 package com.example.person.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.example.person.model.Location;
 import com.example.person.model.Person;
 import com.example.person.repository.PersonRepository;
@@ -83,9 +83,8 @@ public class PersonController {
         Person person = repository.findByLocationName(location)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        String url = UriComponentsBuilder.fromHttpUrl(locationServiceUrl)
-                .queryParam("name", person.getLocationName())
-                .toUriString();
+        String url = locationServiceUrl + "/"
+                + URLEncoder.encode(person.getLocationName(), StandardCharsets.UTF_8);
 
         return restTemplate.getForObject(url, Location.class);
     }
